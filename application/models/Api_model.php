@@ -32,6 +32,26 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 		
 
+ 	
+
+ 	public function get_current_counter($key)
+	{
+		 $this ->mongo_db-> select($key);
+		 $this ->mongo_db-> limit(1);
+		 $query = $this->mongo_db->get('counters');
+		 return $query;
+	}
+
+	public function update_counter($key)
+	{
+		$result = $this->get_current_counter($key);
+		$count  = $result[0][$key];
+		$result = $this->mongo_db->where(array($key=>$count))->set($key, (int)$count+1)->update('counters');
+		$result = $this->get_current_counter($key);
+		return $result[0][$key];
+	}
+
+	
 
 
 }

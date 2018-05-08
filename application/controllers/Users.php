@@ -15,6 +15,7 @@ class Users extends REST_Controller
     {   
         parent::__construct();
         $this->load->helper('url');
+        $this->load->library('session');
         $this->load->model('api_model');
     }
 
@@ -42,6 +43,7 @@ class Users extends REST_Controller
 
         $post_data['status'] = 1;
         $post_data['is_deleted'] = 0;        
+        $post_data['id'] = $this->api_model->update_counter('users_count');
 
         $this->api_model->register($post_data);
       
