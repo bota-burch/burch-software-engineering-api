@@ -42,7 +42,9 @@ class Users extends REST_Controller
        
 
         $post_data['status'] = 1;
-        $post_data['is_deleted'] = 0;        
+        $post_data['is_deleted'] = 0;
+        $post_data['is_blocked'] = 0;
+        $post_data['authentication_token'] = $this->randomString();
         $post_data['id'] = $this->api_model->update_counter('users_count');
 
         $this->api_model->register($post_data);
@@ -54,6 +56,26 @@ class Users extends REST_Controller
     }
 
     
+
+  
+
+
+    
+    
+    private function randomString()
+    {
+        $timestamp = str_replace(' ', '', microtime());
+        $timestamp = str_replace('.', '', $timestamp);
+        $length = 10;
+        $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $str = "";
+        for ($i = 0; $i < $length; $i++) {
+            $str.= $chars[mt_rand(0, strlen($chars) - 1) ];
+        }
+
+        $str = $str . $timestamp;
+        return $str;
+    }
 
 
 }
