@@ -57,10 +57,28 @@ class Users extends REST_Controller
 
     
 
+    public function login_post()
+    {
+        $post_data = $this->post();
+       
+
+        $result = $this->api_model->checkAccountLogin($post_data);
+
+        if ($result == false) {
+            $this->set_response(['status' => FALSE, 'message' => 'username or the password do not match'], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+        else {
+            $authToken = $this->randomString();
+            $result[0]['authentication_token'] = $authToken;
+          
+            $this->set_response(['status' => TRUE, 'data' => $result[0], 'message' => 'User has logged in successfully'], REST_Controller::HTTP_OK);
+        }
+    }
+
   
-
-
     
+   
     
     private function randomString()
     {

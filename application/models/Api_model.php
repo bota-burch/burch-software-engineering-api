@@ -30,7 +30,20 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	 	return $query;
 	 }
 
-		
+	
+
+	 function checkAccountLogin($data)
+ 	{
+	   	$this -> mongo_db -> select('id,name,email_id,phone_number,status,username');
+	   	$this -> mongo_db -> where('username', $data['username']);
+	  	$this -> mongo_db -> where('password',MD5($data['password']));
+	   	$this -> mongo_db -> where('status', 1);
+	   	$this -> mongo_db -> where('is_deleted', 0);
+	   	$this -> mongo_db -> limit(1);
+
+	   $query = $this -> mongo_db -> get('users');
+	 	return $query;
+ 	}
 
  	
 
@@ -52,6 +65,9 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	}
 
 	
+
+
+
 
 
 }
