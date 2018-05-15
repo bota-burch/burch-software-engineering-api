@@ -60,7 +60,15 @@ class Users extends REST_Controller
     public function login_post()
     {
         $post_data = $this->post();
-       
+        $requiredFields = array(
+            'username',
+            'password'
+        );
+        $message = $this->validate($post_data, $requiredFields);
+        if ($message != '') {
+            $this->set_response(['status' => FALSE, 'message' => $message], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
 
         $result = $this->api_model->checkAccountLogin($post_data);
 
@@ -78,7 +86,31 @@ class Users extends REST_Controller
 
   
     
-   
+    private function validate($data, $requiredFields = array())
+    {
+        $message = '';
+        $count = 0;
+        for ($i = 0; $i < count($requiredFields); $i++) {
+            if (array_key_exists($requiredFields[$i], $data) && trim($data[$requiredFields[$i]]) == '') {
+                $count++;
+                if ($count != 1) $message.= ", ";
+                $message.= $requiredFields[$i];
+            }
+            else
+            if (!array_key_exists($requiredFields[$i], $data)) {
+                $message = $requiredFields[$i] . " key is missing";
+                return $message;
+            }
+        }
+
+        if ($message != '') {
+            if ($count > 1) $message.= " fields are required.";
+            else $message.= " field is required";
+        }
+
+        return $message;
+    }
+
     
     private function randomString()
     {
