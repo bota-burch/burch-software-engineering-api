@@ -30,8 +30,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	 	return $query;
 	 }
 
-	
-
+		
 	 function checkAccountLogin($data)
  	{
 	   	$this -> mongo_db -> select('id,name,email_id,phone_number,status,username');
@@ -65,6 +64,41 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	}
 
 	
+ 	function addCompany($data)
+ 	{
+ 		 $this->mongo_db->insert('company',$data);
+		 return true;
+ 	}
+
+
+ 	function getCompany($name)
+ 	{	
+ 		if(isset($name)){
+ 			$query = $this->mongo_db->get_where('company', array('name' => $name));
+ 		}else{
+ 			$query  = $this->mongo_db->get('company');
+ 		}
+		return $query;
+ 	}
+
+
+ 	function removeCompany($id)
+ 	{	
+ 		$this->mongo_db->where(array('id'=>(int)$id))->delete('company');
+		 return true;
+ 	}
+
+
+ 	function getCompanyById($id)
+ 	{	
+ 		if(isset($id)){
+ 			$query = $this->mongo_db->get_where('company', array('id' => (int)$id));
+ 		}else{
+ 			$query  = $this->mongo_db->get('company');
+ 		}
+		return $query;
+ 	}
+
 
 
 
