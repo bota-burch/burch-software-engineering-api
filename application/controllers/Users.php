@@ -79,13 +79,36 @@ class Users extends REST_Controller
         else {
             $authToken = $this->randomString();
             $result[0]['authentication_token'] = $authToken;
-          
+            $result[0]['skills'] = $this->api_model->getSkill( array("user_id" => (int) $result[0]['id']) ); 
+            $result[0]['experiences'] = $this->api_model->getExperience(array("user_id" => (int) $result[0]['id']) );
+            $result[0]['educations'] = $this->api_model->getEducation( array("user_id" => (int) $result[0]['id']) ); 
+
             $this->set_response(['status' => TRUE, 'data' => $result[0], 'message' => 'User has logged in successfully'], REST_Controller::HTTP_OK);
         }
     }
 
-  
-    
+    public function update_post(){
+        $post_data = $this->post();
+        $exp = $post_data['experiences'];
+        unset($post_data['experiences']);
+        for ($i = 0; $i < count($exp); $i++) {
+            $exp[$i]['user_id'] = $post_data['id'];
+           $exp[$i]['id'] = $this->api_model->update_counter('exp_count');
+
+            $result = $this->api_model->addExperience( $exp[$i]);
+        }
+        
+       
+        $result1 = $this->api_model->update_user($post_data, array(
+            "id" => (int)$post_data['id']
+        ));
+        $result2 = $this->api_model->getUser($post_data['id']);
+        $result2[0]['experiences'] = $exp;
+        $this->set_response(['status' => TRUE, 'data' => $result2[0], 'message' => 'User has been updated  successfully'], REST_Controller::HTTP_OK);
+
+    }
+
+   
     private function validate($data, $requiredFields = array())
     {
         $message = '';

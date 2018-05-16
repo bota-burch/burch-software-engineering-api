@@ -30,7 +30,12 @@ class Company extends REST_Controller
 
     }
 
+    public function removeCompany_post(){
+        $post_data = $this->post();
+        $result = $this->api_model->removeCompany( $post_data['id'] ); 
+        $this->set_response(['status' => TRUE, 'data' => $result[0], 'message' => 'Company has been deleted  successfully'], REST_Controller::HTTP_OK);
 
+    }
 
     public function getall_get()
     {

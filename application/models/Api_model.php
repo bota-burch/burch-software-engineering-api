@@ -30,7 +30,15 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	 	return $query;
 	 }
 
-		
+		function getUser($userid)
+	 {
+	 	$this->mongo_db->select(array(),array('_id','password'));
+	   	$this->mongo_db->where(array('id'=>(int)$userid));
+	   	$this ->mongo_db-> limit(1);
+	   	$query = $this ->mongo_db-> get('users');
+	   	return $query;
+	 }
+
 	 function checkAccountLogin($data)
  	{
 	   	$this -> mongo_db -> select('id,name,email_id,phone_number,status,username');
@@ -43,6 +51,12 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	   $query = $this -> mongo_db -> get('users');
 	 	return $query;
  	}
+
+ 		public function update_user($data=array(),$Where=array())
+	{
+		$result = $this->mongo_db->where($Where)->set($data)->update('users');
+		return $result;
+	}
 
  	
 
@@ -64,6 +78,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	}
 
 	
+
+ 	
  	function addCompany($data)
  	{
  		 $this->mongo_db->insert('company',$data);
