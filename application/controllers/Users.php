@@ -131,7 +131,15 @@ class Users extends REST_Controller
 
     }
 
-   
+    public function addEducation_post(){
+        $post_data = $this->post();
+        $post_data['id'] = $this->api_model->update_counter('education_count');
+        $result = $this->api_model->addEducation( $post_data); 
+        $result = $this->api_model->getEducation( array("id" => (int) $post_data['id'])); 
+         unset($result[0]['_id']);
+        $this->set_response(['status' => TRUE, 'data' => $result[0], 'message' => 'Education has been added  successfully'], REST_Controller::HTTP_OK);
+
+    }
 
     public function removeExperience_post(){
         $post_data = $this->post();
@@ -140,7 +148,16 @@ class Users extends REST_Controller
 
     }
 
-   
+    public function removeEducation_post(){
+        $post_data = $this->post();
+        $result = $this->api_model->removeEducation( $post_data['id'] ); 
+        $this->set_response(['status' => TRUE, 'data' => $result[0], 'message' => 'Education has been deleted  successfully'], REST_Controller::HTTP_OK);
+
+    }
+
+
+
+    
     private function validate($data, $requiredFields = array())
     {
         $message = '';

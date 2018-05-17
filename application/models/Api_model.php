@@ -117,6 +117,29 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  	}
 
 
+ 	function addEducation($data)
+ 	{
+ 		 $this->mongo_db->insert('userEducation',$data);
+		 return true;
+ 	}
+
+ 	function removeEducation($id)
+ 	{	
+ 		$this->mongo_db->where(array('id'=>(int)$id))->delete('userEducation');
+		 return true;
+ 	}
+
+
+ 	function getEducation($data)
+ 	{	
+ 		if(isset($data)){
+ 			$query = $this->mongo_db->get_where('userEducation',$data);
+ 		}else{
+ 			$query  = $this->mongo_db->get('userEducation');
+ 		}
+		return $query;
+ 	}
+
  	function addCompany($data)
  	{
  		 $this->mongo_db->insert('company',$data);
