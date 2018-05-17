@@ -77,7 +77,28 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		return $result[0][$key];
 	}
 
-	
+	function addExperience($data)
+ 	{
+ 		 $this->mongo_db->insert('userExperiences',$data);
+		 return true;
+ 	}
+
+ 	function getExperience($data)
+ 	{	
+ 		if(isset($data)){
+ 			$query = $this->mongo_db->get_where('userExperiences',$data);
+ 		}else{
+ 			$query  = $this->mongo_db->get('userExperiences');
+ 		}
+		return $query;
+ 	}
+
+
+ 	function removeExperience($id)
+ 	{	$this->mongo_db->where(array('id'=>(int)$id))->delete('userExperiences');
+		 return true;
+ 	}
+
 
  	
  	function addCompany($data)

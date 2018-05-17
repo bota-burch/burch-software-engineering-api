@@ -108,7 +108,27 @@ class Users extends REST_Controller
 
     }
 
-   
+    public function addExperience_post(){
+        $post_data = $this->post();
+         $post_data['id'] = $this->api_model->update_counter('exp_count');
+        $result = $this->api_model->addExperience( $post_data); 
+        $result = $this->api_model->getExperience(  array("id" => (int) $post_data['id'])   ); 
+         unset($result[0]['_id']);
+        $this->set_response(['status' => TRUE, 'data' => $result[0], 'message' => 'Experience has been added  successfully'], REST_Controller::HTTP_OK);
+
+    }
+
+
+    public function removeExperience_post(){
+        $post_data = $this->post();
+        $result = $this->api_model->removeExperience( $post_data['id'] ); 
+        $this->set_response(['status' => TRUE, 'data' => $result[0], 'message' => 'Experience has been deleted  successfully'], REST_Controller::HTTP_OK);
+
+    }
+
+
+
+    
     private function validate($data, $requiredFields = array())
     {
         $message = '';
