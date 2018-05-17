@@ -119,6 +119,20 @@ class Users extends REST_Controller
     }
 
 
+
+
+    public function addSkill_post(){
+        $post_data = $this->post();
+        $post_data['id'] = $this->api_model->update_counter('skill_count');
+        $result = $this->api_model->addSkill( $post_data); 
+        $result = $this->api_model->getSkill( array("id" => (int) $post_data['id']) ); 
+         unset($result[0]['_id']);
+        $this->set_response(['status' => TRUE, 'data' => $result[0], 'message' => 'Skill has been added  successfully'], REST_Controller::HTTP_OK);
+
+    }
+
+   
+
     public function removeExperience_post(){
         $post_data = $this->post();
         $result = $this->api_model->removeExperience( $post_data['id'] ); 
@@ -126,9 +140,7 @@ class Users extends REST_Controller
 
     }
 
-
-
-    
+   
     private function validate($data, $requiredFields = array())
     {
         $message = '';

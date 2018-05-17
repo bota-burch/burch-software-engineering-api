@@ -100,7 +100,23 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  	}
 
 
- 	
+ 	function addSkill($data)
+ 	{
+ 		 $this->mongo_db->insert('userSkills',$data);
+		 return true;
+ 	}
+
+ 	function getSkill($data)
+ 	{	
+ 		if(isset($data)){
+ 			$query = $this->mongo_db->get_where('userSkills', $data);
+ 		}else{
+ 			$query  = $this->mongo_db->get('userSkills');
+ 		}
+		return $query;
+ 	}
+
+
  	function addCompany($data)
  	{
  		 $this->mongo_db->insert('company',$data);
