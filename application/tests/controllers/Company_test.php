@@ -10,9 +10,10 @@
 
 class Company_test extends TestCase
 {
-	public function test_index()
+	//test case for fetching all the companies
+	public function test_getall()
 	{
-		$output = $this->request('GET', 'company/getall_get');
+		$output = $this->request('GET', 'company/getall');
 		$this->assertResponseCode(200);
 	}
 

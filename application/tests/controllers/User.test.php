@@ -10,12 +10,18 @@
 
 class User_test extends TestCase
 {
-	public function test_index()
+	//test case for to signup the user
+	public function test_signup()
 	{
-		$output = $this->request('POST', 'user/signup');
+		$output = $this->request('POST', 'users/signup', [
+				'name' => 'Mike Smitha',
+				'username' => 'mike@eapaale.jp',
+				'password' => '123456'
+			]);
 		$this->assertResponseCode(200);
 	}
 
+	
 	public function test_method_404()
 	{
 		$this->request('GET', 'user/method_not_exist');
