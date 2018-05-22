@@ -22,10 +22,14 @@ class User_test extends TestCase
 	}
 
 	
-	public function test_method_404()
+	//test case for correct username and password
+	public function test_loginSuccess()
 	{
-		$this->request('GET', 'user/method_not_exist');
-		$this->assertResponseCode(404);
+		$output = $this->request('POST', 'users/login', [
+				'username' => 'mike@exaple.jp',
+				'password' => '123456'
+			]);
+		$this->assertResponseCode(200);
 	}
 
 	public function test_APPPATH()
