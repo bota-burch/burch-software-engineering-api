@@ -21,7 +21,7 @@ class User_test extends TestCase
 		$this->assertResponseCode(200);
 	}
 
-	
+
 	//test case for correct username and password
 	public function test_loginSuccess()
 	{
@@ -30,6 +30,16 @@ class User_test extends TestCase
 				'password' => '123456'
 			]);
 		$this->assertResponseCode(200);
+	}
+
+	//test case for wrong username and password
+	public function test_loginFail()
+	{
+		$output = $this->request('POST', 'users/login', [
+				'username' => 'mike@exaple.jp',
+				'password' => '156'
+			]);
+		$this->assertResponseCode(400);
 	}
 
 	public function test_APPPATH()
