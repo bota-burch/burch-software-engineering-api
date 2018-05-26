@@ -42,6 +42,17 @@ class User_test extends TestCase
 		$this->assertResponseCode(400);
 	}
 
+	public function test_addSkill()
+	{
+		$output = $this->request('POST', 'users/addSkill', [
+				'name' => 'PHP',
+				'user_id' => 3			
+				]);
+		$this->assertResponseCode(200);
+	}
+
+
+
 	public function test_APPPATH()
 	{
 		$actual = realpath(APPPATH);
