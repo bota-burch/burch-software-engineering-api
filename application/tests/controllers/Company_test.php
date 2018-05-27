@@ -17,10 +17,25 @@ class Company_test extends TestCase
 		$this->assertResponseCode(200);
 	}
 
-	public function test_method_404()
+	//test case  to add the company
+	public function test_addCompany()
 	{
-		$this->request('GET', 'company/method_not_exist');
-		$this->assertResponseCode(404);
+		$output = $this->request('POST', 'company/addCompany', [
+				'name' => 'test Company',
+				'subtitle' => 'test_company',
+				'address' => 'test address',
+				'website' => 'test_company.com',
+			]);
+		$this->assertResponseCode(200);
+	}
+
+	//test case to remove the company
+	public function test_removeCompany()
+	{
+		$output = $this->request('POST', 'company/removeCompany', [
+				'id' => 5,
+			]);
+		$this->assertResponseCode(200);
 	}
 
 	public function test_APPPATH()
