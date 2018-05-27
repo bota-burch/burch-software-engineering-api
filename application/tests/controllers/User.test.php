@@ -64,6 +64,23 @@ class User_test extends TestCase
 		$this->assertResponseCode(200);
 	}
 
+	public function test_addExperience()
+	{
+		$output = $this->request('POST', 'users/addExperience', [
+				'jobTitle' => 'SSE',
+				'companyName' => 'Google',
+				'location' => 'U.S.A.',
+				'desc' => 'test test',
+				'dateFrom' => '01-01-2015',
+				'dateTo' => '01-01-2018',
+				'linkedTo' => '',
+				'user_id' => 3,
+				'selectedCompany' => ''
+			]);
+		$this->assertResponseCode(200);
+	}
+
+
 	public function test_APPPATH()
 	{
 		$actual = realpath(APPPATH);
