@@ -51,7 +51,18 @@ class User_test extends TestCase
 		$this->assertResponseCode(200);
 	}
 
-
+	public function test_addEducation()
+	{
+		$output = $this->request('POST', 'users/addEducation', [
+				'college' => 'TEST College',
+				'status' => 'completed',
+				'course' => 'UG',
+				'dateFrom' => '01-01-2015',
+				'dateTo' => '01-01-2018',
+				'user_id' => 3
+			]);
+		$this->assertResponseCode(200);
+	}
 
 	public function test_APPPATH()
 	{
